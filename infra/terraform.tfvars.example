@@ -1,0 +1,6 @@
+aws_region          = "us-west-2"
+instance_type       = "t3.micro"
+name_prefix         = "orchard-lab"
+acm_certificate_arn = "arn:aws:acm:us-west-2:722087330526:certificate/2d6c7fc7-a575-4d6b-bb52-9ba4c378367a"
+app_domain          = "orchard-lab.usreliance.com"
+my_ip_cidr = "96.78.158.161/32"	

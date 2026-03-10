@@ -1,0 +1,7 @@
+output "alb_dns_name" {
+  value = aws_lb.orchard.dns_name
+}
+
+output "public_ip" {
+  value = aws_instance.web.public_ip
+}
