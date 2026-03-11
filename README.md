@@ -1,3 +1,37 @@
+## Architecture Overview
+
+```text
+Internet
+   │
+   ▼
+Application Load Balancer (TLS)
+   │
+   ▼
+EC2 Instance
+   │
+   ▼
+Security Group Controls
+   │
+   ▼
+AWS VPC
+
+## Architecture Overview
+
+```text
+Internet
+   │
+   ▼
+Application Load Balancer (TLS)
+   │
+   ▼
+EC2 Instance
+   │
+   ▼
+Security Group Controls
+   │
+   ▼
+AWS VPC
+
 # 🌳 orchard-lab
 
 AWS micro-lab for platform engineering, Terraform workflows, and cloud reliability experiments.
