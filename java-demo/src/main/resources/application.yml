@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: orchard-lab-demo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+info:
+  app:
+    name: orchard-lab-demo
+    description: Spring Boot observability demo for Orchard Lab
+    version: 0.0.1-SNAPSHOT
+
+logging:
+  level:
+    root: INFO
+    com.usreliance.orchardlab: INFO
