@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: orchard-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
+  tempo:
+    image: grafana/tempo:latest
+    container_name: orchard-tempo
+    ports:
+      - "3200:3200"
+      - "4317:4317"
+      - "4318:4318"
+    volumes:
+      - ./tempo/tempo.yml:/etc/tempo.yml:ro
+    command:
+      - -config.file=/etc/tempo.yml
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: orchard-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+      - tempo
+    restart: unless-stopped
