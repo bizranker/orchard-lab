@@ -8,6 +8,7 @@ on:
 jobs:
   build-java-demo:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: java-demo
@@ -26,7 +27,7 @@ jobs:
       - name: Build
         run: mvn -B clean package
 
-      - name: Archive JAR
+      - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
         with:
           name: orchard-lab-demo-jar
