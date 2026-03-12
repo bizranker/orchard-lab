@@ -1,5 +1,5 @@
 aws_region          = "us-west-2"
-instance_type       = "t3.micro"
+instance_type       = "t3.medium"
 name_prefix         = "orchard-lab"
 acm_certificate_arn = "arn:aws:acm:us-west-2:722087330526:certificate/2d6c7fc7-a575-4d6b-bb52-9ba4c378367a"
 app_domain          = "orchard-lab.usreliance.com"
