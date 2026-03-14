@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: usreliance-verticals
+  namespace: argocd
+spec:
+  description: GitOps project for Orchard Lab fictional client verticals
+  sourceRepos:
+    - 'git@github.com:bizranker/orchard-lab.git'
+    - 'https://github.com/bizranker/orchard-lab.git'
+  destinations:
+    - namespace: aurelia-finance
+      server: https://kubernetes.default.svc
+    - namespace: northstar-logistics
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  orphanedResources:
+    warn: true

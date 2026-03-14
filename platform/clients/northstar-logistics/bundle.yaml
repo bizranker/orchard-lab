@@ -1,0 +1,127 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: northstar-logistics
+  labels:
+    tenant: northstar-logistics
+    managed-by: argocd
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: northstar-api-secret
+  namespace: northstar-logistics
+type: Opaque
+stringData:
+  API_SHARED_TOKEN: CHANGE_ME_NORTHSTAR_TOKEN
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: northstar-api
+  namespace: northstar-logistics
+  labels:
+    app: northstar-api
+    tenant: northstar-logistics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: northstar-api
+  template:
+    metadata:
+      labels:
+        app: northstar-api
+        tenant: northstar-logistics
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/"
+    spec:
+      containers:
+        - name: northstar-api
+          image: ealen/echo-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: LOG_LEVEL
+              value: info
+            - name: FORWARD_TARGET
+              value: http://aurelia-api.aurelia-finance.svc.cluster.local
+            - name: API_SHARED_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: northstar-api-secret
+                  key: API_SHARED_TOKEN
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: northstar-api
+  namespace: northstar-logistics
+  labels:
+    app: northstar-api
+spec:
+  selector:
+    app: northstar-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: northstar-api
+  namespace: northstar-logistics
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: northstar.orchard.usreliance.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: northstar-api
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: northstar-default-deny-except-ingress-and-aurelia
+  namespace: northstar-logistics
+spec:
+  podSelector:
+    matchLabels:
+      app: northstar-api
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: aurelia-finance
+      ports:
+        - protocol: TCP
+          port: 80
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0

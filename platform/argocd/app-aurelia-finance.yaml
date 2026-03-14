@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aurelia-finance
+  namespace: argocd
+spec:
+  project: usreliance-verticals
+  source:
+    repoURL: git@github.com:bizranker/orchard-lab.git
+    targetRevision: main
+    path: platform/clients/aurelia-finance
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: aurelia-finance
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
