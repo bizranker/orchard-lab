@@ -18,3 +18,8 @@ terraform.tfvars
 Thumbs.db
 .vscode/
 .idea/
+
+# Java / Maven
+java-demo/target/
+**/target/
+*.jar
