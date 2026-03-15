@@ -79,6 +79,7 @@ public class RealmController {
       border-color:var(--line);
       color:var(--text);
     }
+    .button:hover{filter:brightness(1.08)}
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -93,10 +94,17 @@ public class RealmController {
     }
     .card h3{margin:0 0 10px}
     .card p{margin:0;color:var(--muted);line-height:1.55}
+    .journal-links a{
+      color:var(--blue);
+      text-decoration:none;
+    }
+    .journal-links a:hover{
+      text-decoration:underline;
+    }
     .shots{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:16px;
+      grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+      gap:18px;
       margin-top:16px;
     }
     .shot{
@@ -109,12 +117,23 @@ public class RealmController {
       display:block;
       width:100%;
       height:auto;
-      min-height:180px;
+      min-height:260px;
       background:#081321;
-      object-fit:cover;
+      object-fit:contain;
     }
-    .caption{padding:12px 14px;color:var(--muted);font-size:14px;line-height:1.5}
-    ul{color:var(--muted);line-height:1.7}
+    .caption{
+      padding:12px 14px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    ul{color:var(--muted);line-height:1.8}
+    code{
+      background:rgba(255,255,255,0.06);
+      padding:2px 6px;
+      border-radius:6px;
+      color:#d7e7ff;
+    }
     .footer{margin-top:24px;text-align:center;color:var(--muted);font-size:14px}
   </style>
 </head>
@@ -130,12 +149,12 @@ public class RealmController {
       <div class="badge">⚔️ Grand Imperator Brian • Voximus Maximus • Secure Realm Entry Point</div>
 
       <div class="actions">
-        <a class="button" href="/hello">Test /hello</a>
-        <a class="button" href="/work">Invoke /work</a>
-        <a class="button alt" href="/actuator/prometheus">Metrics Endpoint</a>
-	<a class="button alt" href="https://orchard.usreliance.com/grafana/d/ad7xm6r/orchard-observability?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank">Grafana Dashboard</a>
-        <a class="button alt" href="https://orchard.usreliance.com/prometheus/">Prometheus</a>
-        <a class="button alt" href="https://orchard-lab.usreliance.com/">Status Page</a>
+        <a class="button" href="/hello" target="_blank" rel="noopener noreferrer">Test /hello</a>
+        <a class="button" href="/work" target="_blank" rel="noopener noreferrer">Invoke /work</a>
+        <a class="button alt" href="/actuator/prometheus" target="_blank" rel="noopener noreferrer">Metrics Endpoint</a>
+        <a class="button alt" href="https://orchard.usreliance.com/prometheus/targets" target="_blank" rel="noopener noreferrer">Prometheus Targets</a>
+        <a class="button alt" href="https://orchard.usreliance.com/grafana/d/ad7xm6r/orchard-observability?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank" rel="noopener noreferrer">Grafana Dashboard</a>
+        <a class="button alt" href="https://orchard-lab.usreliance.com/" target="_blank" rel="noopener noreferrer">Status Page</a>
       </div>
     </section>
 
@@ -161,38 +180,43 @@ public class RealmController {
       </div>
     </section>
 
-<section class="section">
-  <h2>Project Journal and Entry Points</h2>
-  <ul>
-    <li>Repository: <a href="https://github.com/bizranker/orchard-lab" target="_blank" style="color:#4da3ff;">github.com/bizranker/orchard-lab</a></li>
-    <li>README: the living project log and architectural source of truth for Orchard Lab</li>
-    <li>Primary secure app entry: <a href="https://orchard.usreliance.com" target="_blank" style="color:#4da3ff;">orchard.usreliance.com</a></li>
-    <li>Status dashboard: <a href="https://orchard-lab.usreliance.com/" target="_blank" style="color:#4da3ff;">orchard-lab.usreliance.com</a></li>
-    <li>Controlled access: privileged changes remain case-by-case, not public sandbox access</li>
-  </ul>
-</section>
+    <section class="section journal-links">
+      <h2>Project Journal and Entry Points</h2>
+      <ul>
+        <li><strong>Repository:</strong> <a href="https://github.com/bizranker/orchard-lab" target="_blank" rel="noopener noreferrer">github.com/bizranker/orchard-lab</a></li>
+        <li><strong>Local project root:</strong> <code>/opt/orchard-lab</code></li>
+        <li><strong>Java app source:</strong> <code>/opt/orchard-lab/java-demo</code></li>
+        <li><strong>Runtime jar:</strong> <code>/opt/orchard-runtime/orchard-demo.jar</code></li>
+        <li><strong>Service unit:</strong> <code>/etc/systemd/system/orchard-demo.service</code></li>
+        <li><strong>Observability stack:</strong> Prometheus, Grafana, Tempo, Spring Boot Actuator, Nginx, TLS, ALB, Terraform, Docker Compose</li>
+        <li><strong>Architecture/docs:</strong> use the repo README plus the <code>architecture</code>, <code>docs</code>, <code>observability</code>, and <code>platform</code> directories as the living source of truth</li>
+        <li><strong>Future state:</strong> Orchard Lab will expand into a platform engineering demo with fictional client verticals, isolated namespaces, secure API communication, and controlled ingress through the USRELIANCE realm</li>
+      </ul>
+    </section>
 
-<section class="section">
-  <h2>Next Expansion of the Realm</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>K3s</h3>
-      <p>Lightweight Kubernetes foundation for platform and workload demonstrations.</p>
-    </div>
-    <div class="card">
-      <h3>Rancher</h3>
-      <p>Cluster visibility, lifecycle operations, and multi-environment management.</p>
-    </div>
-    <div class="card">
-      <h3>ArgoCD</h3>
-      <p>GitOps deployment flow for declarative application promotion and rollback.</p>
-    </div>
-    <div class="card">
-      <h3>API Security</h3>
-      <p>Future demo surface for secure ingress, auth, policy, and observability patterns.</p>
-    </div>
-  </div>
-</section>
+    <section class="section">
+      <h2>Architecture and Screenshots</h2>
+      <div class="shots">
+        <div class="shot">
+          <a href="/grafana-dashboard.png" target="_blank" rel="noopener noreferrer">
+            <img src="/grafana-dashboard.png" alt="Grafana dashboard">
+          </a>
+          <div class="caption">Grafana observability dashboard for request rate, latency, CPU, error rate, heap usage, threads, and GC activity. Click image to open full size.</div>
+        </div>
+        <div class="shot">
+          <a href="/prometheus-targets.png" target="_blank" rel="noopener noreferrer">
+            <img src="/prometheus-targets.png" alt="Prometheus targets">
+          </a>
+          <div class="caption">Prometheus targets view confirming successful scraping of the Spring Boot actuator metrics endpoint. Click image to open full size.</div>
+        </div>
+        <div class="shot">
+          <a href="/status-page.png" target="_blank" rel="noopener noreferrer">
+            <img src="/status-page.png" alt="Status page">
+          </a>
+          <div class="caption">The Orchard status page showing instance metadata, system load, memory, disk, and network information. Click image to open full size.</div>
+        </div>
+      </div>
+    </section>
 
     <div class="footer">
       USRELIANCE Realm • Orchard Lab • Secure Platform Engineering Gateway
