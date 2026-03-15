@@ -1,56 +1,48 @@
-# Orchard Lab Platform Expansion
+# Orchard Lab Platform
 
-This section of the repository defines the next phase of the Orchard Lab realm:
+This directory contains the multi-tenant platform engineering layer for Orchard Lab.
 
-- multi-tenant verticals
-- GitOps onboarding through ArgoCD
-- future K3s deployment targets
-- future Rancher visibility and lifecycle management
-- secure API communication patterns between fictional clients
-- observability integration
+## Purpose
 
-## Fictional Client Verticals
+The goal is to evolve Orchard Lab from a single observability demo into a private platform engineering environment that demonstrates:
 
-### Aurelia Finance
-A fictional financial services tenant used to demonstrate:
 - namespace isolation
-- API ingress
-- token-based service communication
-- future transaction-style API flows
+- fictional enterprise tenant onboarding
+- secure service exposure
+- GitOps-ready manifest layout
+- policy and ingress control
+- observability across multiple verticals
 
-### Northstar Logistics
-A fictional logistics tenant used to demonstrate:
-- separate namespace and traffic boundary
-- API ingress
-- token-based service communication
-- future shipment/event-style API flows
+## Tenants
 
-## Planned Runtime Model
+### aurelia-finance
+A fictional fintech tenant representing a regulated financial services client.
 
-K3s cluster
-↓
-ArgoCD manages vertical manifests from Git
-↓
-Rancher provides operational visibility
-↓
-each tenant runs in its own namespace
-↓
-traffic enters through ingress/TLS
-↓
-tenant APIs communicate through controlled service endpoints
-↓
-Prometheus and Grafana monitor health and traffic
+### northstar-logistics
+A fictional enterprise logistics tenant representing a high-throughput B2B operations client.
 
-## Notes
+## Layout
 
-These manifests are the first GitOps scaffold.
+- `namespaces/` tenant-specific namespace definitions and notes
+- `ingress/` ingress definitions and routing plans
+- `policies/` network and security policy manifests
+- `services/` shared and tenant-facing service definitions
+- `manifests/` consolidated deployment manifests and future GitOps entry points
 
-They establish:
-- namespaces
-- placeholder API deployments
-- services
-- ingress objects
-- network policy boundaries
-- ArgoCD project and application definitions
+## Operating Principle
 
-A later phase will replace placeholder application images with real services and implement stronger API security patterns such as signed JWTs or mTLS.
+Public traffic continues to enter through:
+
+ALB -> nginx -> internal services
+
+K3s will be introduced behind nginx, not as the owner of ports 80 and 443.
+
+## Current Intent
+
+This platform layer is being prepared for:
+
+1. controlled K3s reintroduction
+2. tenant namespace creation
+3. safe service exposure
+4. ArgoCD / GitOps integration
+5. observability expansion across client verticals

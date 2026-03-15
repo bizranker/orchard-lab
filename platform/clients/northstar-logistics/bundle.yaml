@@ -35,7 +35,7 @@ spec:
         tenant: northstar-logistics
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
+        prometheus.io/port: "80"
         prometheus.io/path: "/"
     spec:
       containers:
@@ -108,9 +108,6 @@ spec:
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: kube-system
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: default

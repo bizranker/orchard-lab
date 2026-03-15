@@ -28,6 +28,7 @@ public class RealmController {
       --gold:#d4af37;
       --blue:#4da3ff;
       --green:#39d98a;
+      --red:#ff6b6b;
     }
     *{box-sizing:border-box}
     body{
@@ -43,6 +44,7 @@ public class RealmController {
       border-radius:20px;
       padding:28px 24px;
       margin-bottom:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.22);
     }
     .eyebrow{
       color:var(--gold);
@@ -53,6 +55,7 @@ public class RealmController {
     }
     h1{margin:0;font-size:42px}
     h2{margin:0 0 14px;font-size:24px}
+    h3{margin:0 0 10px}
     .sub{margin-top:14px;color:var(--muted);font-size:18px;line-height:1.6}
     .badge{
       display:inline-block;
@@ -63,21 +66,35 @@ public class RealmController {
       background:rgba(77,163,255,0.08);
       font-weight:700;
     }
-    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+    .button-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:18px;
+    }
     .button{
-      display:inline-block;
-      padding:12px 16px;
-      border-radius:12px;
+      display:block;
+      padding:14px 16px;
+      border-radius:14px;
       border:1px solid #4d86c2;
       background:linear-gradient(135deg,#234f85,#2f78c8);
       color:#fff;
       font-weight:700;
       text-decoration:none;
+      text-align:center;
     }
-    .button.alt{
+    .button.secondary{
       background:rgba(255,255,255,0.03);
       border-color:var(--line);
       color:var(--text);
+    }
+    .button.success{
+      background:linear-gradient(135deg,#146c43,#1f9d60);
+      border-color:#2ca36a;
+    }
+    .button.warn{
+      background:linear-gradient(135deg,#6b4d14,#a1731d);
+      border-color:#c69537;
     }
     .button:hover{filter:brightness(1.08)}
     .grid{
@@ -92,7 +109,6 @@ public class RealmController {
       border-radius:16px;
       padding:18px;
     }
-    .card h3{margin:0 0 10px}
     .card p{margin:0;color:var(--muted);line-height:1.55}
     .journal-links a{
       color:var(--blue);
@@ -127,6 +143,23 @@ public class RealmController {
       font-size:14px;
       line-height:1.5;
     }
+    .ops-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:16px;
+      margin-top:14px;
+    }
+    .ops-card{
+      background:rgba(0,0,0,0.18);
+      border:1px solid #2f4868;
+      border-radius:16px;
+      padding:18px;
+    }
+    .ops-card p{
+      margin:0 0 14px;
+      color:var(--muted);
+      line-height:1.55;
+    }
     ul{color:var(--muted);line-height:1.8}
     code{
       background:rgba(255,255,255,0.06);
@@ -144,17 +177,50 @@ public class RealmController {
       <h1>Orchard Lab: The Observability Gate of the Realm</h1>
       <div class="sub">
         Orchard Lab is the secure USRELIANCE engineering outpost: a Spring Boot service fronted by Nginx and TLS,
-        monitored through Prometheus and Grafana, and shaped by the allegiance of the Grand Imperator and Voximus Maximus.
+        monitored through Prometheus, Grafana, and Tempo, and shaped by the allegiance of the Grand Imperator and Voximus Maximus.
       </div>
       <div class="badge">⚔️ Grand Imperator Brian • Voximus Maximus • Secure Realm Entry Point</div>
 
-      <div class="actions">
+      <div class="button-grid">
         <a class="button" href="/hello" target="_blank" rel="noopener noreferrer">Test /hello</a>
         <a class="button" href="/work" target="_blank" rel="noopener noreferrer">Invoke /work</a>
-        <a class="button alt" href="/actuator/prometheus" target="_blank" rel="noopener noreferrer">Metrics Endpoint</a>
-        <a class="button alt" href="https://orchard.usreliance.com/prometheus/targets" target="_blank" rel="noopener noreferrer">Prometheus Targets</a>
-        <a class="button alt" href="https://orchard.usreliance.com/grafana/d/ad7xm6r/orchard-observability?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank" rel="noopener noreferrer">Grafana Dashboard</a>
-        <a class="button alt" href="https://orchard-lab.usreliance.com/" target="_blank" rel="noopener noreferrer">Status Page</a>
+        <a class="button success" href="/actuator/health" target="_blank" rel="noopener noreferrer">Application Health</a>
+        <a class="button secondary" href="/actuator/prometheus" target="_blank" rel="noopener noreferrer">Raw Metrics Endpoint</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Operations Console</h2>
+      <div class="ops-grid">
+        <div class="ops-card">
+          <h3>Application Checks</h3>
+          <p>Direct access to the Spring Boot demo endpoints and the application health view.</p>
+          <div class="button-grid">
+            <a class="button" href="/hello" target="_blank" rel="noopener noreferrer">Open /hello</a>
+            <a class="button" href="/work" target="_blank" rel="noopener noreferrer">Open /work</a>
+            <a class="button success" href="/actuator/health" target="_blank" rel="noopener noreferrer">Open /actuator/health</a>
+          </div>
+        </div>
+
+        <div class="ops-card">
+          <h3>Metrics and Monitoring</h3>
+          <p>Fast paths into the observability surfaces that prove the realm is instrumented and alive.</p>
+          <div class="button-grid">
+            <a class="button secondary" href="/actuator/prometheus" target="_blank" rel="noopener noreferrer">Raw Prometheus Metrics</a>
+            <a class="button secondary" href="https://orchard.usreliance.com/prometheus/targets" target="_blank" rel="noopener noreferrer">Prometheus Targets</a>
+            <a class="button secondary" href="https://orchard.usreliance.com/prometheus/" target="_blank" rel="noopener noreferrer">Prometheus Console</a>
+          </div>
+        </div>
+
+        <div class="ops-card">
+          <h3>Dashboards and Status</h3>
+          <p>Operator-facing views for the realm dashboard and the infrastructure status panel.</p>
+          <div class="button-grid">
+            <a class="button warn" href="https://orchard.usreliance.com/grafana/d/ad7xm6r/orchard-observability?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank" rel="noopener noreferrer">Grafana Dashboard</a>
+            <a class="button secondary" href="https://orchard.usreliance.com/grafana/" target="_blank" rel="noopener noreferrer">Grafana Home</a>
+            <a class="button secondary" href="https://orchard-lab.usreliance.com/" target="_blank" rel="noopener noreferrer">Status Page</a>
+          </div>
+        </div>
       </div>
     </section>
 
