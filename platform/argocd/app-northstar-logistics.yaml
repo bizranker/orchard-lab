@@ -6,7 +6,7 @@ metadata:
 spec:
   project: usreliance-verticals
   source:
-    repoURL: git@github.com:bizranker/orchard-lab.git
+    repoURL: https://github.com/bizranker/orchard-lab.git
     targetRevision: main
     path: platform/clients/northstar-logistics
   destination:
